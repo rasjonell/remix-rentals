@@ -1,4 +1,10 @@
-import { RemixBrowser } from "@remix-run/react";
-import { hydrateRoot } from "react-dom/client";
+import { hydrateRoot } from 'react-dom/client';
+import { RemixBrowser } from '@remix-run/react';
+import ThemeContextProvider from '~/contexts/theme';
 
-hydrateRoot(document, <RemixBrowser />);
+hydrateRoot(
+  document,
+  <ThemeContextProvider>
+    <RemixBrowser />
+  </ThemeContextProvider>,
+);

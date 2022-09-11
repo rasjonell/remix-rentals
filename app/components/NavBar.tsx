@@ -1,4 +1,5 @@
 import { Link } from '@remix-run/react';
+import ThemeToggler from './ThemeToggler';
 
 export default function NavBar() {
   return (
@@ -48,7 +49,8 @@ export default function NavBar() {
         </ul>
       </div>
       <div className="navbar-end">
-        <Link to="/" className="btn">
+        <ThemeToggler />
+        <Link to="/" className="ml-3 btn">
           Login
         </Link>
       </div>

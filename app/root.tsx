@@ -2,6 +2,7 @@ import type { MetaFunction } from '@remix-run/node';
 import { Meta, Links, Outlet, Scripts, LiveReload, ScrollRestoration } from '@remix-run/react';
 
 import styles from '~/styles/app.css';
+import { useTheme } from './contexts/theme';
 export const links = () => [{ rel: 'stylesheet', href: styles }];
 
 export const meta: MetaFunction = () => ({
@@ -11,8 +12,12 @@ export const meta: MetaFunction = () => ({
 });
 
 export default function App() {
+  const themeContext = useTheme();
+
+  console.log(themeContext.theme);
+
   return (
-    <html lang="en" data-theme="garden">
+    <html lang="en" data-theme={themeContext.theme}>
       <head>
         <Meta />
         <Links />
