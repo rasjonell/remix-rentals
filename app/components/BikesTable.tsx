@@ -3,7 +3,7 @@ import { Link } from '@remix-run/react';
 
 type TableProps = { bikes: SerializeFrom<Array<Models.BikeWithRelationships>> };
 
-export default function BikeTable({ bikes }: TableProps) {
+export default function BikesTable({ bikes }: TableProps) {
   return (
     <div className="overflow-x-auto">
       <table className="table w-full">
@@ -29,11 +29,16 @@ export default function BikeTable({ bikes }: TableProps) {
               <td>{bike.available ? 'Available' : 'Not Available'}</td>
               <td>{bike.reservations.length}</td>
               <td>{new Date(bike.createdAt).toLocaleDateString()}</td>
-              <td>
+              <td className="flex">
                 <Link to={`${bike.id}/edit`} className="btn btn-sm btn-warning mr-2">
                   Edit
                 </Link>
-                <button className="btn btn-sm btn-error">Delete</button>
+                <form method="post">
+                  <input type="hidden" name="bikeId" value={bike.id} />
+                  <button type="submit" className="btn btn-sm btn-error">
+                    Delete
+                  </button>
+                </form>
               </td>
             </tr>
           ))}

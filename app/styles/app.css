@@ -3308,10 +3308,6 @@ body[dir="rtl"] .checkbox:checked,
   margin-left: 0.75rem;
 }
 
-.mb-5 {
-  margin-bottom: 1.25rem;
-}
-
 .mt-5 {
   margin-top: 1.25rem;
 }
@@ -3322,6 +3318,10 @@ body[dir="rtl"] .checkbox:checked,
 
 .mt-2 {
   margin-top: 0.5rem;
+}
+
+.mb-5 {
+  margin-bottom: 1.25rem;
 }
 
 .flex {
@@ -3356,16 +3356,16 @@ body[dir="rtl"] .checkbox:checked,
   width: 1.5rem;
 }
 
+.w-full {
+  width: 100%;
+}
+
 .w-5 {
   width: 1.25rem;
 }
 
 .w-52 {
   width: 13rem;
-}
-
-.w-full {
-  width: 100%;
 }
 
 .w-10 {
@@ -3435,12 +3435,12 @@ body[dir="rtl"] .checkbox:checked,
   padding: 0px;
 }
 
-.p-10 {
-  padding: 2.5rem;
-}
-
 .p-5 {
   padding: 1.25rem;
+}
+
+.p-10 {
+  padding: 2.5rem;
 }
 
 .text-center {

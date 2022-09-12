@@ -1,13 +1,26 @@
-import { json } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
+import { Link, useLoaderData } from '@remix-run/react';
 
-import type { LoaderFunction } from '@remix-run/node';
+import type { LoaderFunction, ActionFunction } from '@remix-run/node';
 
 import { DB } from '~/services/db.server';
-import { Link, useLoaderData } from '@remix-run/react';
-import BikeTable from '~/components/Table';
+import BikesTable from '~/components/BikesTable';
 
 type LoaderData = {
   bikes: Models.BikeWithRelationships[];
+};
+
+export const action: ActionFunction = async ({ request }) => {
+  const form = await request.formData();
+  const bikeId = form.get('bikeId');
+
+  if (typeof bikeId !== 'string') {
+    throw new Response('Invalid Bike ID', { status: 400 });
+  }
+
+  await DB.bike.delete({ where: { id: bikeId } });
+
+  return redirect('');
 };
 
 export const loader: LoaderFunction = async () => {
@@ -29,7 +42,7 @@ export default function DashboardBikes() {
           Create a Bike
         </Link>
       </div>
-      <BikeTable bikes={data.bikes} />
+      <BikesTable bikes={data.bikes} />
     </div>
   );
 }
