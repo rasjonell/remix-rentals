@@ -1,7 +1,37 @@
 import { Link } from '@remix-run/react';
-import ThemeToggler from './ThemeToggler';
 
-export default function NavBar() {
+import ThemeToggler from '~/components/ThemeToggler';
+
+type NavBarProps = {
+  isManager?: boolean;
+};
+
+export default function NavBar({ isManager = false }: NavBarProps) {
+  const userItems = (
+    <>
+      <li>
+        <Link to="/bikes">Bikes</Link>
+      </li>
+      <li>
+        <Link to="/profile">Profile</Link>
+      </li>
+    </>
+  );
+
+  const managerItems = (
+    <>
+      <li>
+        <Link to="bikes">Bikes</Link>
+      </li>
+      <li>
+        <Link to="users">Users</Link>
+      </li>
+      <li>
+        <Link to="reservations">Reservations</Link>
+      </li>
+    </>
+  );
+
   return (
     <div className="navbar bg-base-100 shadow-lg">
       <div className="navbar-start">
@@ -26,12 +56,7 @@ export default function NavBar() {
             tabIndex={0}
             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
-            <li>
-              <Link to="/bikes">Bikes</Link>
-            </li>
-            <li>
-              <Link to="/">Reservations</Link>
-            </li>
+            {isManager ? managerItems : userItems}
           </ul>
         </div>
         <Link to="/" className="btn btn-ghost normal-case text-xl">
@@ -39,14 +64,7 @@ export default function NavBar() {
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal p-0">
-          <li>
-            <Link to="/bikes">Bikes</Link>
-          </li>
-          <li>
-            <Link to="/">Reservations</Link>
-          </li>
-        </ul>
+        <ul className="menu menu-horizontal p-0">{isManager ? managerItems : userItems}</ul>
       </div>
       <div className="navbar-end">
         <ThemeToggler />
