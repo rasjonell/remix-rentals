@@ -14,8 +14,6 @@ export const meta: MetaFunction = () => ({
 export default function App() {
   const themeContext = useTheme();
 
-  console.log(themeContext.theme);
-
   return (
     <html lang="en" data-theme={themeContext.theme}>
       <head>
