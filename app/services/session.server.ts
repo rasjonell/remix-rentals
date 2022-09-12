@@ -137,5 +137,5 @@ export async function requireManager(
     throw redirect(`/login?${searchParams}`);
   }
 
-  return user.id;
+  return user;
 }
