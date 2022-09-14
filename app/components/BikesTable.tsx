@@ -12,7 +12,8 @@ export default function BikesTable({ bikes }: TableProps) {
             <th></th>
             <th>Model</th>
             <th>Color</th>
-            <th>Rating</th>
+            <th>Average Rating</th>
+            <th>Ratings</th>
             <th>Availability</th>
             <th>Reservations</th>
             <th>Date Created</th>
@@ -25,7 +26,8 @@ export default function BikesTable({ bikes }: TableProps) {
               <th>{index + 1}</th>
               <td>{bike.model}</td>
               <td>{bike.color}</td>
-              <td>{bike.rating}</td>
+              <td>{bike.rating.toFixed(2)}</td>
+              <td>{bike.ratingCount}</td>
               <td>{bike.available ? 'Available' : 'Not Available'}</td>
               <td>
                 <Link to={`${bike.id}/reservations`} className="btn btn-sm">

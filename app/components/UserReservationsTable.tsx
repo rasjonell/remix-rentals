@@ -13,6 +13,7 @@ export default function BikeReservationsTable({ user }: TableProps) {
             <th>End Date</th>
             <th>Bike</th>
             <th>Reserved By</th>
+            <th>Reserved At</th>
           </tr>
         </thead>
         <tbody>

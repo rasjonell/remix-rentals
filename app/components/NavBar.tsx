@@ -1,7 +1,8 @@
 import { Link } from '@remix-run/react';
+import { FaSignOutAlt } from 'react-icons/fa';
 
-import type { getUser } from '~/services/session.server';
 import type { SerializeFrom } from '@remix-run/node';
+import type { getUser } from '~/services/session.server';
 
 import ThemeToggler from '~/components/ThemeToggler';
 
@@ -67,11 +68,11 @@ export default function NavBar({ user }: NavBarProps) {
           <ThemeToggler />
         </div>
         {user ? (
-          <Link to="/logout" className="btn">
-            Log Out
+          <Link to="/logout" className="btn btn-square btn-outline">
+            <FaSignOutAlt size={18} />
           </Link>
         ) : (
-          <Link to="/login" className="btn">
+          <Link to="/login" className="btn btn-outline">
             Login
           </Link>
         )}
