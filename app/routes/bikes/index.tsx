@@ -1,15 +1,14 @@
-import { useState } from 'react';
 import { json } from '@remix-run/node';
-import { FaFilter, FaTrash } from 'react-icons/fa';
-import { useLoaderData, useNavigate } from '@remix-run/react';
+import { FaFilter } from 'react-icons/fa';
+import { useLoaderData } from '@remix-run/react';
 
-import type { ChangeEventHandler } from 'react';
 import type { LoaderFunction } from '@remix-run/node';
 
 import BikeCard from '~/components/Bike';
 import { DB } from '~/services/db.server';
-import { getUser } from '~/services/session.server';
 import DrawerSide from '~/components/Drawer';
+import { getUser } from '~/services/session.server';
+import { findOverlaps } from '~/utils/validate';
 
 type LoaderData = {
   colors: string[];
@@ -23,6 +22,9 @@ export const loader: LoaderFunction = async ({ request }) => {
   const color = url.searchParams.get('color') || '';
   const rating = url.searchParams.get('rating') || '0';
   const location = url.searchParams.get('location') || '';
+
+  const endDate = url.searchParams.get('endDate');
+  const startDate = url.searchParams.get('startDate');
 
   const [user, bikes, colors] = await Promise.all([
     getUser(request),
@@ -39,7 +41,14 @@ export const loader: LoaderFunction = async ({ request }) => {
     DB.bike.findMany({ select: { color: true } }),
   ]);
 
-  return json<LoaderData>({ user, bikes, colors: colors.map(({ color }) => color) });
+  const filteredBikes =
+    startDate && endDate
+      ? bikes.filter(
+          (bike) => !findOverlaps(new Date(startDate), new Date(endDate), bike.reservations),
+        )
+      : bikes;
+
+  return json<LoaderData>({ user, bikes: filteredBikes, colors: colors.map(({ color }) => color) });
 };
 
 export default function BikeIndex() {

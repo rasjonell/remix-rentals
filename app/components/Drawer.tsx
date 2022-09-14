@@ -12,7 +12,14 @@ type DrawerSideProps = {
 
 export default function DrawerSide({ colors }: DrawerSideProps) {
   const navigate = useNavigate();
-  const [filterData, setFilterData] = useState({ model: '', color: '', rating: '', location: '' });
+  const [filterData, setFilterData] = useState({
+    model: '',
+    color: '',
+    rating: '',
+    location: '',
+    endDate: '',
+    startDate: '',
+  });
 
   const clearFilters = () => {
     navigate('/bikes');
@@ -41,6 +48,35 @@ export default function DrawerSide({ colors }: DrawerSideProps) {
     <div className="drawer-side">
       <label htmlFor="filter" className="drawer-overlay" />
       <ul className="menu-compact h-full p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
+        <li>
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">When do you want to reserve the bike?</span>
+            </label>
+            <div className="flex">
+              <p className="font-light">Start Date:</p>
+              <input
+                type="date"
+                name="startDate"
+                placeholder="startDate"
+                value={filterData.startDate}
+                onChange={handleFilterChange('startDate')}
+                className="input input-bordered w-full mb-2"
+              />
+            </div>
+            <div className="flex">
+              <p className="font-light">End Date: </p>
+              <input
+                type="date"
+                name="endDate"
+                placeholder="endDate"
+                value={filterData.endDate}
+                onChange={handleFilterChange('endDate')}
+                className="input input-bordered w-full"
+              />
+            </div>
+          </div>
+        </li>
         <li>
           <div className="form-control w-full max-w-xs">
             <label className="label">

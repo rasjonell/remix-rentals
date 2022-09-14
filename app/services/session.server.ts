@@ -80,14 +80,17 @@ export async function getUserId(
   request: Request,
   redirectTo: string = new URL(request.url).pathname,
 ) {
-  const session = await getUserSession(request);
-  const userId = session.get('userId');
+  try {
+    const session = await getUserSession(request);
+    const userId = session.get('userId');
 
-  if (!userId || typeof userId !== 'string') {
+    if (!userId || typeof userId !== 'string') {
+      return null;
+    }
+    return userId;
+  } catch (error) {
     return null;
   }
-
-  return userId;
 }
 
 export async function getUser(request: Request) {

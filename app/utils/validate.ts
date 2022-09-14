@@ -21,7 +21,17 @@ export function getDateRangeError(
     return 'Invalid Date Range';
   }
 
-  const overlaps = reservations
+  if (findOverlaps(startDate, endDate, reservations)) {
+    return 'Selected date range overlaps with another reservation';
+  }
+}
+
+export function findOverlaps(
+  startDate: Date,
+  endDate: Date,
+  reservations: Reservation[] | SerializeFrom<Reservation>[],
+): boolean {
+  return reservations
     .map((reservation) => ({
       start: new Date(reservation.startDate),
       end: new Date(reservation.endDate),
@@ -29,8 +39,4 @@ export function getDateRangeError(
     .some((interval) =>
       areIntervalsOverlapping(interval, { start: startDate, end: endDate }, { inclusive: true }),
     );
-
-  if (overlaps) {
-    return 'Selected date range overlaps with another reservation';
-  }
 }
