@@ -41,8 +41,6 @@ export const action: ActionFunction = async ({ request, params }) => {
   const password = form.get('password');
   const isManager = form.get('isManager');
 
-  console.log(form);
-
   if (
     typeof username !== 'string' ||
     typeof password !== 'string' ||
@@ -74,7 +72,6 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 export const loader: LoaderFunction = async ({ params }) => {
-  console.log('USER ID', params);
   const user = await DB.user.findUnique({
     where: { id: params.userId },
   });

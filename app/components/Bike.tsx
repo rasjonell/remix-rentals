@@ -1,9 +1,10 @@
 import { Form } from '@remix-run/react';
-import { FaLocationArrow, FaStar } from 'react-icons/fa';
+import { FaCaretDown, FaLocationArrow, FaStar } from 'react-icons/fa';
 
 import type { SerializeFrom } from '@remix-run/node';
 
 import BikeModal from '~/components/BikeModal';
+import RateModal from '~/components/RateModal';
 
 type BikeCardProps = {
   withActions?: boolean;
@@ -20,7 +21,23 @@ export default function BikeCard({ bike, user, withActions = false }: BikeCardPr
   return (
     <div className="card bg-base-100 shadow-lg hover:shadow-xl transition-all">
       <div className="card-body">
-        <h2 className="card-title">{bike.model}</h2>
+        <div className="flex justify-between">
+          <h2 className="card-title">{bike.model}</h2>
+          <Form method="post" action="/bikes">
+            <div className="dropdown dropdown-end">
+              <label tabIndex={0} className="btn btn-square btn-sm btn-outline">
+                <FaCaretDown />
+              </label>
+              <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box">
+                <li>
+                  <a href={`#rate-${bike.id}`} className="btn btn-ghost">
+                    Rate
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </Form>
+        </div>
         <h3 className="flex flex-row items-center">
           <FaLocationArrow className="mr-2" />
           {bike.location}
@@ -39,7 +56,11 @@ export default function BikeCard({ bike, user, withActions = false }: BikeCardPr
             <div className="flex flex-row items-center">
               <div className="flex flex-row items-center pr-5">
                 <FaStar size={24} />
-                <span className="ml-2 text-lg">{bike.rating} / 5</span>
+                {bike.ratingCount ? (
+                  <span className="ml-2 text-lg">{bike.rating.toFixed(2)} / 5</span>
+                ) : (
+                  <span className="ml-2 text-lg">N/A</span>
+                )}
               </div>
 
               <div className="tooltip tooltip-right" data-tip={bike.color}>
@@ -69,6 +90,7 @@ export default function BikeCard({ bike, user, withActions = false }: BikeCardPr
         ) : null}
       </div>
       <BikeModal bike={bike} />
+      <RateModal bike={bike} />
     </div>
   );
 }
