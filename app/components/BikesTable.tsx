@@ -8,7 +8,7 @@ export default function BikesTable({ bikes }: TableProps) {
     <div className="overflow-x-auto">
       <table className="table w-full">
         <thead>
-          <tr>
+          <tr className="text-center">
             <th></th>
             <th>Model</th>
             <th>Color</th>
@@ -21,15 +21,19 @@ export default function BikesTable({ bikes }: TableProps) {
         </thead>
         <tbody>
           {bikes.map((bike, index) => (
-            <tr key={bike.id}>
+            <tr key={bike.id} className="text-center">
               <th>{index + 1}</th>
               <td>{bike.model}</td>
               <td>{bike.color}</td>
               <td>{bike.rating}</td>
               <td>{bike.available ? 'Available' : 'Not Available'}</td>
-              <td>{bike.reservations.length}</td>
+              <td>
+                <Link to={`${bike.id}/reservations`} className="btn btn-sm">
+                  {bike.reservations.length}
+                </Link>
+              </td>
               <td>{new Date(bike.createdAt).toLocaleDateString()}</td>
-              <td className="flex">
+              <td className="flex justify-center">
                 <Link to={`${bike.id}/edit`} className="btn btn-sm btn-warning mr-2">
                   Edit
                 </Link>

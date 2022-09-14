@@ -26,7 +26,7 @@ export const action: ActionFunction = async ({ request }) => {
 export const loader: LoaderFunction = async () => {
   const bikes = await DB.bike.findMany({
     orderBy: { createdAt: 'desc' },
-    include: { reservations: true },
+    include: { reservations: { include: { User: true } } },
   });
 
   return json<LoaderData>({ bikes });

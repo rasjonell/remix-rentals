@@ -1,5 +1,6 @@
-import type { SerializeFrom } from '@remix-run/node';
 import { Form, Link } from '@remix-run/react';
+
+import type { SerializeFrom } from '@remix-run/node';
 
 type TableProps = { users: SerializeFrom<Array<Models.UserWithRelationships>> };
 
@@ -8,7 +9,7 @@ export default function UsersTable({ users }: TableProps) {
     <div className="overflow-x-auto">
       <table className="table w-full">
         <thead>
-          <tr>
+          <tr className="text-center">
             <th></th>
             <th>Username</th>
             <th>Account Status</th>
@@ -19,13 +20,17 @@ export default function UsersTable({ users }: TableProps) {
         </thead>
         <tbody>
           {users.map((user, index) => (
-            <tr key={user.id}>
+            <tr key={user.id} className="text-center">
               <th>{index + 1}</th>
               <td>{user.username}</td>
               <td>{user.isManager ? 'Manager' : 'Basic User'}</td>
-              <td>{user.reservations.length}</td>
+              <td>
+                <Link to={`${user.id}/reservations`} className="btn btn-sm">
+                  {user.reservations.length}
+                </Link>
+              </td>
               <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-              <td className="flex">
+              <td className="flex justify-center">
                 <Link to={`${user.id}/edit`} className="btn btn-sm btn-warning mr-2">
                   Edit
                 </Link>

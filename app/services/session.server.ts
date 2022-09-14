@@ -100,7 +100,7 @@ export async function getUser(request: Request) {
   try {
     const user = await DB.user.findUnique({
       where: { id: userId },
-      include: { reservations: true },
+      include: { reservations: { include: { Bike: true } } },
     });
 
     return user;

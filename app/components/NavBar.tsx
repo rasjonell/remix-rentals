@@ -15,13 +15,13 @@ export default function NavBar({ user }: NavBarProps) {
   const managerItems = (
     <>
       <li>
+        <Link to="/dashboard/bikes">Dashboard</Link>
+      </li>
+      <li>
         <Link to="/dashboard/bikes">Bikes</Link>
       </li>
       <li>
         <Link to="/dashboard/users">Users</Link>
-      </li>
-      <li>
-        <Link to="/dashboard/reservations">Reservations</Link>
       </li>
     </>
   );
