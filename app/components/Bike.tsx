@@ -1,7 +1,9 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+import { Form } from '@remix-run/react';
 import { FaLocationArrow, FaStar } from 'react-icons/fa';
 
 import type { SerializeFrom } from '@remix-run/node';
+
+import BikeModal from '~/components/BikeModal';
 
 type BikeCardProps = {
   withActions?: boolean;
@@ -16,10 +18,7 @@ export default function BikeCard({ bike, user, withActions = false }: BikeCardPr
     bike.reservations.find((reservation) => reservation.userId === user.id);
 
   return (
-    <div
-      // onClick={handleBikeClick}
-      className="card bg-base-100 shadow-lg cursor-pointer hover:shadow-xl active:shadow-2xl transition-all"
-    >
+    <div className="card bg-base-100 shadow-lg hover:shadow-xl transition-all">
       <div className="card-body">
         <h2 className="card-title">{bike.model}</h2>
         <h3 className="flex flex-row items-center">
@@ -53,7 +52,14 @@ export default function BikeCard({ bike, user, withActions = false }: BikeCardPr
               </div>
             </div>
             {userReservation ? (
-              <button className="btn text-white">Cancel</button>
+              <Form method="post" action="/bikes">
+                <input type="hidden" name="intent" value="cancel" />
+                <input type="hidden" name="reservationId" value={userReservation.id} />
+
+                <button type="submit" className="btn btn-warning">
+                  Cancel
+                </button>
+              </Form>
             ) : (
               <a href={`#reserve-${bike.id}`} className="btn text-white">
                 Reserve
@@ -62,53 +68,7 @@ export default function BikeCard({ bike, user, withActions = false }: BikeCardPr
           </div>
         ) : null}
       </div>
-
-      <div className="modal modal-bottom sm:modal-middle" id={`reserve-${bike.id}`}>
-        <div className="modal-box relative">
-          <a href="#" className="btn btn-primary btn-sm btn-circle absolute right-2 top-2">
-            ✕
-          </a>
-          <form action="/bikes" method="post">
-            <input type="hidden" name="bikeId" value={bike.id} />
-
-            <h3 className="font-bold text-lg">Reserve "{bike.model}"</h3>
-            <p className="py-4">Please select the period of time to reserve this bike!</p>
-            <div className="py-3">
-              <label className="flex flex-row justify-between items-center w-full">
-                <p className="font-light mr-2">Start Date: </p>
-                <input
-                  required
-                  type="date"
-                  name="startDate"
-                  className="input input-primary input-sm w-3/4"
-                />
-              </label>
-            </div>
-            <div>
-              <label className="flex flex-row justify-between items-center w-full">
-                <p className="font-light mr-2">End Date: </p>
-                <input
-                  required
-                  type="date"
-                  name="endDate"
-                  className="input input-primary input-sm w-3/4"
-                />
-              </label>
-            </div>
-            <div className="modal-action">
-              <button
-                type="submit"
-                className="btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                Reserve
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+      <BikeModal bike={bike} />
     </div>
   );
 }
