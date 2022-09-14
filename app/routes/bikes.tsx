@@ -4,10 +4,10 @@ import { Outlet, useLoaderData } from '@remix-run/react';
 import type { LoaderFunction, ActionFunction } from '@remix-run/node';
 
 import NavBar from '~/components/NavBar';
-import { getUser, requireUser } from '~/services/session.server';
+import { rate } from '~/services/bike.server';
 import { badRequest } from '~/utils/badRequest';
-import { DB } from '~/services/db.server';
-import { getDateRangeError } from '~/utils/validate';
+import { cancel, reserve } from '~/services/reservation.server';
+import { getUser, requireUser } from '~/services/session.server';
 
 type LoaderData = {
   user: Awaited<ReturnType<typeof getUser>>;
@@ -30,6 +30,17 @@ export const action: ActionFunction = async ({ request }) => {
   const intent = form.get('intent');
 
   switch (intent) {
+    case 'rate':
+      const rating = form.get('rating');
+      const bikeIdToRate = form.get('bikeId');
+
+      if (typeof rating !== 'string' || typeof bikeIdToRate !== 'string') {
+        return badRequest({ formError: 'Form not submitted correctly' });
+      }
+
+      await rate(bikeIdToRate, +rating);
+      return redirect('/bikes');
+
     case 'cancel':
       const reservationId = form.get('reservationId');
 
@@ -37,8 +48,7 @@ export const action: ActionFunction = async ({ request }) => {
         throw new Response('Incorrect reservation', { status: 400 });
       }
 
-      await DB.reservation.delete({ where: { id: reservationId } });
-
+      await cancel(reservationId);
       return redirect('/bikes');
 
     case 'reserve':
@@ -50,26 +60,9 @@ export const action: ActionFunction = async ({ request }) => {
         return badRequest({ formError: 'Form not submitted correctly' });
       }
 
-      const bike = await DB.bike.findUnique({
-        where: { id: bikeId },
-        include: { reservations: true },
-      });
-      if (!bike) {
-        throw new Response('Bike does not exist', { status: 404 });
-      }
-
-      const startDate = new Date(start);
-      const endDate = new Date(end);
-
-      const dateRangeError = getDateRangeError(start, end, bike.reservations);
-      if (dateRangeError) {
-        return badRequest({ formError: dateRangeError });
-      }
-
-      const reservationData = { startDate, endDate, userId, bikeId: bike.id };
-      await DB.reservation.create({ data: reservationData });
-
+      await reserve(userId, bikeId, start, end);
       return redirect('/bikes');
+
     default:
       throw new Response('Unknown Intent', { status: 400 });
   }
@@ -81,7 +74,9 @@ export default function BikesIndex() {
   return (
     <>
       <NavBar user={data.user} />
-      <Outlet />
+      <div className="drawer">
+        <Outlet />
+      </div>
     </>
   );
 }

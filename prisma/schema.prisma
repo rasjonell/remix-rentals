@@ -28,6 +28,7 @@ model Bike {
   color        String
   location     String
   rating       Float         @default(0.0)
+  ratingCount  Int           @default(0)
   available    Boolean       @default(false)
   reservations Reservation[]
 }
