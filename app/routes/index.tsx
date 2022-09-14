@@ -1,4 +1,4 @@
-import { json } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
 import { Outlet, useLoaderData } from '@remix-run/react';
 
 import type { LoaderFunction } from '@remix-run/node';
@@ -11,6 +11,12 @@ type LoaderData = {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
+  {
+    const pathname = new URL(request.url).pathname;
+    if (pathname === '/') {
+      return redirect('/bikes');
+    }
+  }
   const user = await getUser(request);
 
   return json({ user });

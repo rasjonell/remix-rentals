@@ -82,9 +82,14 @@ export default function BikeCard({ bike, user, withActions = false }: BikeCardPr
                 </button>
               </Form>
             ) : (
-              <a href={`#reserve-${bike.id}`} className="btn text-white">
-                Reserve
-              </a>
+              <div className="tooltip" data-tip="Login to Reserve">
+                <a
+                  href={`#reserve-${bike.id}`}
+                  className={`btn text-white ${user ? '' : 'btn-disabled'}`}
+                >
+                  Reserve
+                </a>
+              </div>
             )}
           </div>
         ) : null}

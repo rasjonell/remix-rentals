@@ -116,16 +116,20 @@ export async function requireUser(
   request: Request,
   redirectTo: string = new URL(request.url).pathname,
 ) {
-  const session = await getUserSession(request);
-  const userId = session.get('userId');
+  try {
+    const session = await getUserSession(request);
+    const userId = session.get('userId');
 
-  if (!userId || typeof userId !== 'string') {
-    const searchParams = new URLSearchParams([['redirectTo', redirectTo]]);
+    if (!userId || typeof userId !== 'string') {
+      const searchParams = new URLSearchParams([['redirectTo', redirectTo]]);
 
-    throw redirect(`/login?${searchParams}`);
+      throw redirect(`/login?${searchParams}`);
+    }
+
+    return userId;
+  } catch {
+    throw redirect('/login');
   }
-
-  return userId;
 }
 
 export async function requireManager(

@@ -159,7 +159,6 @@ export default function DrawerSide({ colors }: DrawerSideProps) {
                 value="3"
                 type="radio"
                 name="rating"
-                defaultChecked
                 checked={filterData.rating === '3'}
                 onChange={handleFilterChange('rating')}
                 className="mask mask-star-2 bg-orange-400"
