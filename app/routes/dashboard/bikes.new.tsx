@@ -11,40 +11,41 @@ import { Form, useActionData } from '@remix-run/react';
 type ActionData = {
   formError?: string;
   fieldErrors?: {
+    color: string | undefined;
     model: string | undefined;
     location: string | undefined;
     available: string | undefined;
-    color: string | undefined;
   };
   fields: {
+    color: string;
     model: string;
     location: string;
     available: string;
-    color: string;
   };
 };
 
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
+
+  const color = form.get('color');
   const model = form.get('model');
   const location = form.get('location');
   const availability = form.get('available');
-  const color = form.get('color');
 
   if (
+    typeof color !== 'string' ||
     typeof model !== 'string' ||
     typeof location !== 'string' ||
-    !['object', 'string'].includes(typeof availability) ||
-    typeof color !== 'string'
+    !['object', 'string'].includes(typeof availability)
   ) {
     return badRequest({ formError: 'Form not submitted correctly' });
   }
 
   const fieldErrors: ActionData['fieldErrors'] = {
-    model: validateMinimumLength(3, model),
-    location: validateMinimumLength(5, location),
     color: undefined,
     available: undefined,
+    model: validateMinimumLength(3, model),
+    location: validateMinimumLength(5, location),
   };
 
   const available = availability === 'on';

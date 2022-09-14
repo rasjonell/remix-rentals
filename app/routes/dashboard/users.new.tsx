@@ -3,9 +3,9 @@ import { redirect } from '@remix-run/node';
 import type { ActionFunction } from '@remix-run/node';
 
 import { badRequest } from '~/utils/badRequest';
-import { validateMinimumLength } from '~/utils/validate';
-import { Form, useActionData } from '@remix-run/react';
 import { register } from '~/services/session.server';
+import { Form, useActionData } from '@remix-run/react';
+import { validateMinimumLength } from '~/utils/validate';
 
 type ActionData = {
   formError?: string;

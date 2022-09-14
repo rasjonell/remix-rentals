@@ -12,16 +12,16 @@ import { validateMinimumLength } from '~/utils/validate';
 type ActionData = {
   formError?: string;
   fieldErrors?: {
+    color: string | undefined;
     model: string | undefined;
     location: string | undefined;
     available: string | undefined;
-    color: string | undefined;
   };
   fields: {
+    color: string;
     model: string;
     location: string;
     available: string;
-    color: string;
   };
 };
 
@@ -39,10 +39,11 @@ export const action: ActionFunction = async ({ request, params }) => {
   }
 
   const form = await request.formData();
+
+  const color = form.get('color');
   const model = form.get('model');
   const location = form.get('location');
   const availability = form.get('available');
-  const color = form.get('color');
 
   if (
     typeof model !== 'string' ||
