@@ -3,8 +3,8 @@ import { createContext, useContext, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 
 type Theme = {
-  dracula: 'cupcake';
-  cupcake: 'dracula';
+  dracula: 'winter';
+  winter: 'dracula';
 };
 
 type ThemeContextProps = {
@@ -13,8 +13,8 @@ type ThemeContextProps = {
 };
 
 const ThemeToggler: Theme = {
-  dracula: 'cupcake',
-  cupcake: 'dracula',
+  dracula: 'winter',
+  winter: 'dracula',
 };
 
 function newTheme(prev: keyof Theme): keyof Theme {
@@ -22,7 +22,7 @@ function newTheme(prev: keyof Theme): keyof Theme {
 }
 
 export const ThemeContext = createContext<ThemeContextProps>({
-  theme: 'cupcake',
+  theme: 'winter',
   toggleTheme: () => {},
 });
 
@@ -31,7 +31,7 @@ export function useTheme() {
 }
 
 export default function ThemeContextProvider({ children }: PropsWithChildren) {
-  const [theme, setTheme] = useState<keyof Theme>('cupcake');
+  const [theme, setTheme] = useState<keyof Theme>('winter');
 
   const toggleTheme = () => {
     setTheme((current) => newTheme(current));
