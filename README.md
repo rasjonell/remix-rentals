@@ -1,27 +1,14 @@
 # React Bike Rentals - TopTal Project
 
-## Development
+# Running It Locally
 
-From your terminal:
+In order to run the project locally you need to:
 
-```sh
-npm run dev
-```
-
-This starts your app in development mode, rebuilding assets on file changes.
-
-## Deployment
-
-First, build your app for production:
-
-```sh
-npm run build
-```
-
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
+- Clone the repo: `git clone https://git.toptal.com/screening/Gurgen-Hayrapetyan.git`
+- Navigate to the project `cd Gurgen-Hayrapetyan`
+- Copy and rename `.env.example`: `cp .env.example .env` and change it according to your setup
+- Set up the database:
+  - Create SQLite database: `npx prisma db push`
+  - Seed it with a `Manager` user and a couple of `Bike`s: `npx prisma db seed`
+- Build the project: `npm run build`
+- Run a local server: `npm start`
